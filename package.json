@@ -1,0 +1,28 @@
+{
+  "name": "skrep",
+  "version": "1.0.0",
+  "description": "web skrep",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ohsyme/skrep.git"
+  },
+  "keywords": [
+    "webskrep"
+  ],
+  "author": "ohsyme",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ohsyme/skrep/issues"
+  },
+  "homepage": "https://github.com/ohsyme/skrep#readme",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cheerio": "^1.0.0-rc.12",
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}
