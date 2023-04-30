@@ -7,7 +7,7 @@ Scraping Website I Bored
 ## Example
 ```js
 (async () => {
-const api = require('@ohsyme/webscrape');
+const api = require('skrep');
 
 const parameter = 'ayaka';
 const result = await api.[folder].[filename].[functioninsidefile](parameter)
