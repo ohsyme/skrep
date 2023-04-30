@@ -15,7 +15,9 @@ const scanDirectory = (directory, scraperList) => {
   });
 };
 
-const files = fs.readdirSync('../src/scraper');
+const directoryPath = path.join(__dirname, './src/scraper');
+
+const files = fs.readdirSync(directoryPath);
 const api = {};
 
 for (const folder of files) {
