@@ -1,7 +1,7 @@
 (async () => {
     const api = require('skrep');
-    const url = 'https://212.32.226.234/the-pink-album-chapter-01/';
-    const result = await api.nsfw.doujindesu.download(url);
+    const url = 'https://www.instagram.com/reel/CrsOREkJbPi/?utm_source=ig_web_copy_link';
+    const result = await api.downloader.instagram.download(url);
     console.log(result);
 })();
       

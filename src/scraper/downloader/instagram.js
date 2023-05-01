@@ -6,7 +6,7 @@ module.exports = {
   aliases: ['instagram'],
   async download(url) {
     try {
-        let Get_Data = await axios.get(url).data
+        let Get_Data = await axios.get(url)
         let Get_Result = Get_Data.data
         let $ = cheerio.load(Get_Result)
         let data = JSON.parse($('script').html())
@@ -20,4 +20,3 @@ module.exports = {
     }
   },
 };
-    
