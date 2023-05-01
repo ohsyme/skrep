@@ -66,6 +66,8 @@ module.exports = {
   },
 
   async download(url){
+
+    // thank you mas ripan
     if (!url.startsWith(doudesubase)) return console.log('Not Valid Link!\n Example: https://212.32.226.234/manga/marisa-chan-to-sukebe-suru-hon/')
 
     const response = await axios.get(url);
@@ -89,25 +91,20 @@ module.exports = {
       Result.push(get_image)
     })
 
-      const requests = Result.map((result) => {
-        const config = {
-          url: result,
-          responseType: 'arraybuffer',
-          headers: {
-            referer: 'https://doujindesu.xxx/'
-          }
-        };
-    
-        return axios(config);
-      });
+    for (const result of Result) {
+      const config = {
+        url: result,
+        responseType: 'arraybuffer',
+        headers: {
+          referer: 'https://doujindesu.xxx/'
+        }
+      };
 
-      const responses1 = await Promise.all(requests);
-      console.log("These Results Are Buffers You Can Use Fs Package to Convert")
-    
-      const dataArray = responses1.map((response) => {
-        return Array.from(Buffer.from(response.data));
-      });
-      return dataArray;
+      const response = await axios(config);
+      console.log("This Result Is Buffer You Can Use Fs Package to convert ")
+      return response.data
+    }
+
   }
 
 };

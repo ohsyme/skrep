@@ -1,27 +1,20 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
-
+// arigato dhika kun
 module.exports = {
   name: 'instagram',
   aliases: ['instagram'],
   async download(url) {
     try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+        let Get_Data = await axios.get(url).data
+        let Get_Result = Get_Data.data
+        let $ = cheerio.load(Get_Result)
+        let data = JSON.parse($('script').html())
+        let media = []
+        for (let x of [...data.image, ...data.video]) media.push(x.url || x.contentUrl) 
+        return {
+          caption: data.articleBody, media
         }
-    };
-      
-    const response = await axios.post('https://igdownloader.app/api/ajaxSearch', { q: url }, config);
-      
-    const $ = cheerio.load(response.data.data);
-
-    const links = $('*[value*="https://scontent.cdninstagram.com"]').map((i, el) => $(el).attr('value')).get();
-
-    const filteredLinks = links.filter(link => link.includes('p1080x1080'));
-
-    return filteredLinks
-      
     } catch (error) {
       return 'ERROR';
     }
