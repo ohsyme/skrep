@@ -1,5 +1,13 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const fs = require('fs')
+const path = require('path');
+const { PDFDocument } = require('pdf-lib');
+const { jsPDF } = require('jspdf');
+const formdata = require("form-data");
+const AnonFiles = require('../../utils/Anonfiles.js')
+
+
 const doudesubase = "https://212.32.226.234"
 module.exports = {
   name: 'doujindesu',
@@ -91,21 +99,128 @@ module.exports = {
       Result.push(get_image)
     })
 
-    for (const result of Result) {
-      const config = {
-        url: result,
-        responseType: 'arraybuffer',
-        headers: {
-          referer: 'https://doujindesu.xxx/'
-        }
-      };
-
-      const response = await axios(config);
-      console.log("This Result Is Buffer You Can Use Fs Package to convert ")
-      return response.data
-    }
-
+    const all_done = await createPDF(url, Result)
+    return all_done
+    
   }
 
 };
-    
+
+
+
+// to be honest i want put this in utils but idk why not working lol
+async function anonfiless(link, metadata = false, redirect = false) {
+  try {
+    const { data } = await axios.get(`${link}`);
+    const $ = cheerio.load(data);
+    const a_href = $('a#download-url').attr('href');
+    const a = String(a_href);
+    const aDict = {
+      directDownload: a
+    };
+    if (metadata === true) {
+      const id = link.split('/', 4)[3];
+      const jsondata = (await axios.get(`https://api.anonfiles.com/v2/file/${id}/info`)).data;
+      jsondata.data.file.url.directDownload = a;
+      return jsondata;
+    } else if (redirect) {
+      window.open(a);
+    } else if (redirect && metadata) {
+      window.open(a);
+      const id = link.split('/', 4)[3];
+      const jsondata = (await axios.get(`https://api.anonfiles.com/v2/file/${id}/info`)).data;
+      jsondata.data.file.url.directDownload = a;
+      delete jsondata.data.file.url.full;
+      return jsondata;
+    } else if (metadata === false && redirect === false) {
+      return aDict;
+    }
+  } catch {
+    return 'Link is Invalid';
+  }
+}
+
+
+async function saveImages(Result) {
+  const imageFolder = './images';
+  const promises = Result.map((imageUrl, index) => {
+    const fileName = `${index + 1}.jpg`;
+    const filePath = `${imageFolder}/${fileName}`;
+    const config = {
+      url: imageUrl,
+      responseType: 'arraybuffer',
+      headers: {
+        referer: 'https://doujindesu.xxx/'
+      }
+    };
+    return axios(config).then((response) => {
+      return new Promise((resolve, reject) => {
+        fs.writeFile(filePath, response.data, (err) => {
+          if (err) reject(err);
+          console.log(`Image saved to ${filePath}`);
+          resolve(filePath);
+        });
+      });
+    });
+  });
+  const files = await Promise.all(promises);
+  return files;
+}
+
+
+async function createPDF(url, Result1) {
+  try {
+    const files = await saveImages(Result1);
+    const doc = new jsPDF();
+    for (let i = 0; i < files.length; i++) {
+      const imagePath = files[i];
+      const imageBytes = fs.readFileSync(imagePath);
+      const imageData = imageBytes.toString('base64');
+      const imageWidth = doc.internal.pageSize.width;
+      const imageHeight = doc.internal.pageSize.height;
+      doc.addImage(
+        imageData,
+        'JPEG',
+        0,
+        0,
+        imageWidth,
+        imageHeight,
+        '',
+        'FAST'
+      );
+      if (i < files.length - 1) {
+        doc.addPage();
+      }
+    }
+    const pdfBytes = await doc.output('arraybuffer');
+    const pdfDoc = await PDFDocument.load(pdfBytes);
+    const filename = url.replace('https://212.32.226.234/', '').replaceAll('/', '')
+    const pdfFile = `./images/${filename}.pdf`;
+    const pdfBytesModified = await pdfDoc.save({
+      addDefaultPage: false,
+      useObjectStreams: false
+    });
+    await fs.promises.writeFile(pdfFile, pdfBytesModified);
+    console.log('PDF created successfully!');
+    const pdfBuffer = Buffer.from(pdfBytesModified);
+    const response = await AnonFiles.uploadBlob(pdfBuffer, `${filename}.pdf`, 0);
+    const anonfilled = await anonfiless(response.data.file.url.short, true , true)
+    for (const file of files) {
+      await fs.promises.unlink(file);
+    }
+    await fs.promises.unlink(pdfFile);
+    console.log(`PDF ${pdfFile} deleted successfully!`);
+
+
+    return({
+      file_name: `${anonfilled.data.file.metadata.name}`,
+      size: anonfilled.data.file.metadata.size,
+      full_link: anonfilled.data.file.url.full,
+      short_link: anonfilled.data.file.url.short,
+      direct_link: anonfilled.data.file.url.directDownload,
+    })
+
+  } catch (err) {
+    console.error(err);
+  }
+}
