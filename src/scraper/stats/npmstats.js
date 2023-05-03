@@ -1,6 +1,4 @@
-const axios = require('axios');
-const cheerio = require('cheerio');
-const Credits = 'Thank You Using My Package, Credits: https://www.npmjs.com/package/skrep'
+
 module.exports = {
   name: 'npmstats',
   aliases: ['npm'],
