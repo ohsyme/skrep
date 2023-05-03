@@ -3,7 +3,6 @@ const path = require('path');
 
 // Shit Ass Change Later I Tired
 
-
 const scanDirectory = (directory, scraperList) => {
   fs.readdirSync(directory, { withFileTypes: true }).forEach((entry) => {
     if (entry.isDirectory()) {
