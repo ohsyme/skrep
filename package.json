@@ -1,6 +1,6 @@
 {
   "name": "skrep",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "web skrep",
   "main": "index.js",
   "scripts": {
