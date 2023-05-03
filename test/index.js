@@ -1,7 +1,7 @@
 (async () => {
     const api = require('skrep');
-     const url = 'skrep';
-     const result = await api.stats.npmstats.stats(url);
+     const url = 'genshin impact';
+     const result = await api.nsfw.rule34.search(url);
      console.log(result)
 })();
       

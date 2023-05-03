@@ -6,7 +6,7 @@ const { PDFDocument } = require('pdf-lib');
 const { jsPDF } = require('jspdf');
 const formdata = require("form-data");
 const AnonFiles = require('../../utils/Anonfiles.js')
-
+const Credits = 'Thank You Using My Package, Credits: https://www.npmjs.com/package/skrep'
 
 const doudesubase = "https://212.32.226.234"
 module.exports = {
