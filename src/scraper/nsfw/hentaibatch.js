@@ -21,7 +21,8 @@ module.exports = {
           Release,
           category,
           Genre,
-          Star
+          Star,
+          Credits: Credits
         });
       });
 

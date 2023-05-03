@@ -28,7 +28,8 @@ module.exports = {
         Categories: Categories,
         total_page: total_page,
         upload: upload,
-        Link : Result
+        Link : Result,
+        Credits: Credits
       })
     } catch (error) {
         console.log(error)

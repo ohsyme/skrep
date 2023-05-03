@@ -29,7 +29,8 @@ module.exports = {
           Title,
           score,
           status,
-          link
+          link,
+          Credits: Credits
         });
       });
 
@@ -69,6 +70,7 @@ module.exports = {
       Group,
       Rating,
       Date,
+      Credits: Credits
     });
     
   },
@@ -218,6 +220,7 @@ async function createPDF(url, Result1) {
       full_link: anonfilled.data.file.url.full,
       short_link: anonfilled.data.file.url.short,
       direct_link: anonfilled.data.file.url.directDownload,
+      Credits: Credits
     })
 
   } catch (err) {

@@ -1,5 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const Credits = 'Thank You Using My Package, Credits: https://www.npmjs.com/package/skrep'
 // arigato dhika kun
 module.exports = {
   name: 'instagram',
@@ -13,7 +14,8 @@ module.exports = {
         let media = []
         for (let x of [...data.image, ...data.video]) media.push(x.url || x.contentUrl) 
         return {
-          caption: data.articleBody, media
+          caption: data.articleBody, media,
+          Credits: Credits
         }
     } catch (error) {
       return 'ERROR';

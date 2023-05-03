@@ -1,5 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const Credits = 'Thank You Using My Package, Credits: https://www.npmjs.com/package/skrep'
 
 module.exports = {
   name: 'Facebook',
@@ -30,6 +31,7 @@ async function Facebook1(){
       title,
       download_link,
       audio_link,
+      Credits: Credits
     });
   });
 
@@ -54,7 +56,8 @@ async function facebook2(url){
   })
   return ({
     description: $('.results-item-text').text().replaceAll('\n', '').trim(),
-    link: Result
+    link: Result,
+    Credits: Credits
   })
 
 }
