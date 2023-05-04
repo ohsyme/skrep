@@ -1,7 +1,7 @@
 (async () => {
     const api = require('skrep');
-     const url = 'genshin impact';
-     const result = await api.nsfw.rule34.search(url);
+     const url = 'https://www.hentaibatch.com/2022/09/kanpeki-ojousama-no-watakushi-ga-dogeza.html';
+     const result = await api.nsfw.HentaiBatch.detail(url);
      console.log(result)
 })();
       
