@@ -45,3 +45,8 @@ You can Dm Me In Discord ohsyme#7073
 
 
 ## See Ya
+
+## hall Of shame 
+
+![image](https://user-images.githubusercontent.com/49177554/236141366-a202758a-3bdf-4bcd-a785-6a21e1f772f3.png)
+
