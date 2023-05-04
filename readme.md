@@ -4,6 +4,8 @@ Scraping Website I Bored
 
 **i still maintain this** so you can Request Scrape web
 
+Target weekly is always 100 downloads so if no reach target i will close npm 
+
 discord server link : [https://discord.gg/CxYkEE4euS](https://discord.gg/CxYkEE4euS) you can find me in there
 ## Example
 ```js
